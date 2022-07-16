@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="77c246af-7d29-49d6-9bcf-1209307e1a07" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="choicerouter-projectFlow" doc:id="8e4c4239-a211-4973-92a3-f7b972f3307f" >
+		<http:listener doc:name="Listener" doc:id="fc5fdc0d-dd18-4e20-9e94-b06e6f306015" config-ref="HTTP_Listener_config" path="/test"/>
+		<choice doc:name="Choice" doc:id="cb7d6b75-2386-4345-bcc3-e73f3600edbd" >
+			<when expression='#[payload.color == "red"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="c3cc9172-5939-4322-9671-35b9ea511957" message='#["color is red"]'/>
+			</when>
+			<when expression='#[payload.color == "pink"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="2fd0edaa-008a-488d-a287-d70b2889783f" message='#["the color is pink"]'/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="2db15f69-8ab4-4364-93b2-0d96eb90a0ce" message='#["the color is other than red or pink"]'/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
